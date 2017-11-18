@@ -1,15 +1,18 @@
 # Phoebe Makefile
 
 CC=g++
-CFLAGS=-O2 -Wall
-SOURCES=main.cpp ray.cpp
-OBJECTS=$(SOURCES:.cpp=.o)
-EXECUTABLE=phoebe
+CFLAGS=-c -O2 -Wall
 
-all: $(SOURCES) $(EXECUTABLE)
+all: phoebe
 
-$(EXECUTABLE): $(OBJECTS)
-    $(CC) $(LDFLAGS) $(OBJECTS) -o $@
+phoebe: main.o ray.o
+	$(CC) main.o ray.o -o phoebe
 
-.cpp.o:
-    $(CC) $(CFLAGS) $< -o $@ 
+main.o: src/main.cpp
+	$(CC) $(CFLAGS) src/main.cpp
+
+ray.o: src/ray.cpp
+	$(CC) $(CFLAGS) src/ray.cpp
+
+clean:
+	rm *.o phoebe

@@ -10,10 +10,10 @@ int main(int argc, char** argv)
 
     // Trace for each pixel of the screen.
     for (int i = 0; i < WINDOW_WIDTH; ++i) {
-        for (int j = 0; i < WIDNOW_HEIGHT; ++j) {
+        for (int j = 0; i < WINDOW_HEIGHT; ++j) {
             // TODO: get pixel value
         }
-    } 
+    }
 
     return EXIT_SUCCESS;
 }
