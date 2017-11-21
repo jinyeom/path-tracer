@@ -13,5 +13,9 @@ func main() {
 	height := flag.Int("height", 600, "image height")
 	flag.Parse()
 
-	// tracer := NewTracer()
+	tracer := NewTracer()
+	buf := NewBuffer(*width, *height)
+
+	tracer.Render(buf)
+	buf.ExportPNG("test.png")
 }

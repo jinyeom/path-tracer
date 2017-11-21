@@ -1,2 +1,2 @@
-# phoebe
-Ray tracer in C++
+# Phoebe
+Go Implementation of Path Tracer
