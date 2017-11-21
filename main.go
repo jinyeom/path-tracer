@@ -14,10 +14,4 @@ func main() {
 	flag.Parse()
 
 	// tracer := NewTracer()
-
-	for i := 0; i < *width; i++ {
-		for j := 0; j < *height; j++ {
-			// TODO: Get pixel intensity
-		}
-	}
 }

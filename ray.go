@@ -1,6 +1,5 @@
 package main
 
-// Ray
 type Ray struct {
 	P Vec3 // point of origin of the ray
 	D Vec3 // direction of the ray
