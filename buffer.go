@@ -34,15 +34,12 @@ func (b *Buffer) Height() int {
 	return b.height
 }
 
-// SetIntensityAt sets a pixel value at the argument offset (i, j), given its intensity of R, G,
-// B, A values that range from 0.0 to 1.0.
-func (b *Buffer) SetIntensityAt(i, j int, ir, ig, ib, ia float64) {
-	pr := uint8(255. * math.Min(math.Max(ir, 0.0), 1.0))
-	pg := uint8(255. * math.Min(math.Max(ig, 0.0), 1.0))
-	pb := uint8(255. * math.Min(math.Max(ib, 0.0), 1.0))
-	pa := uint8(255. * math.Min(math.Max(ia, 0.0), 1.0))
+func (b *Buffer) SetIntensityAt(i, j int, rgb Vec3) {
+	rVal := uint8(255. * math.Min(math.Max(rgb.X, 0.0), 1.0))
+	gVal := uint8(255. * math.Min(math.Max(rgb.Y, 0.0), 1.0))
+	bVal := uint8(255. * math.Min(math.Max(rgb.Z, 0.0), 1.0))
 
-	b.buffer.SetRGBA(i, j, color.RGBA{pr, pg, pb, pa})
+	b.buffer.SetRGBA(i, j, color.RGBA{rVal, gVal, bVal, 255})
 }
 
 // ExportPNG exports the rendered image in PNG format.

@@ -1,26 +1,31 @@
 package main
 
-import "math/rand"
-
 type Tracer struct {
 	Scene  *Scene
 	Camera *Camera
+
+	samples int // sample size for anti-aliasing
 }
 
-func NewTracer() *Tracer {
-	return &Tracer{}
+func NewTracer(samples int) *Tracer {
+	return &Tracer{
+		Scene:   NewScene(),
+		Camera:  NewCamera(),
+		samples: samples,
+	}
 }
 
-func (t *Tracer) Trace(i, j int) (float64, float64, float64, float64) {
-	return rand.Float64(), rand.Float64(), rand.Float64(), rand.Float64()
+func (t *Tracer) TraceAt(i, j int) Vec3 {
+
+	return NewVec3(0.0, 0.0, 0.0)
 }
 
 func (t *Tracer) Render(b *Buffer) {
 	for i := 0; i < b.Width(); i++ {
 		for j := 0; j < b.Height(); j++ {
 			// Set the intensity of the pixel in buffer.
-			ir, ig, ib, ia := t.Trace(i, j)
-			b.SetIntensityAt(i, j, ir, ig, ib, ia)
+			rgb := t.TraceAt(i, j)
+			b.SetIntensityAt(i, j, rgb)
 		}
 	}
 }
