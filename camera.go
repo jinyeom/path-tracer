@@ -1,15 +1,16 @@
 package main
 
-// Camera
+// Camera casts rays to the scene through the screen to retrieve the pixel densities.
 type Camera struct {
-	Eye  Vec3 // position of the camera
-	Look Vec3 // direction the camera is looking at
+	P Vec3 // position of the camera
+	D Vec3 // direction the camera is looking at
 }
 
+// NewCamera returns a new camera at (0, 0, 0) that is pointing at (0, 0, -1).
 func NewCamera() *Camera {
 	return &Camera{
-		Eye:  NewVec3(0.0, 0.0, 0.0),
-		Look: NewVec3(0.0, 0.0, -1.0),
+		P: NewVec3(0.0, 0.0, 0.0),
+		D: NewVec3(0.0, 0.0, -1.0),
 	}
 }
 

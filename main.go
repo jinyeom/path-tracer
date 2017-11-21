@@ -11,7 +11,7 @@ func main() {
 
 	width := flag.Int("width", 800, "width of rendered image")
 	height := flag.Int("height", 600, "height of rendered image")
-	samples := flag.Int("samples", 4, "sampling size for anti-aliasing")
+	samples := flag.Int("samples", 5000, "number of samples")
 
 	flag.Parse()
 

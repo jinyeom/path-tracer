@@ -4,7 +4,7 @@ type Tracer struct {
 	Scene  *Scene
 	Camera *Camera
 
-	samples int // sample size for anti-aliasing
+	samples int
 }
 
 func NewTracer(samples int) *Tracer {
