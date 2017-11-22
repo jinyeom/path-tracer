@@ -26,12 +26,9 @@ func NewBuffer(width, height int) *Buffer {
 	}
 }
 
-func (b *Buffer) Width() int {
-	return b.width
-}
-
-func (b *Buffer) Height() int {
-	return b.height
+// Dims returns width and height of the image buffer.
+func (b *Buffer) Dims() (int, int) {
+	return b.width, b.height
 }
 
 func (b *Buffer) SetIntensityAt(i, j int, rgb Vec3) {
