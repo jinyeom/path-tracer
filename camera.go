@@ -13,12 +13,12 @@ type Camera struct {
 }
 
 // NewCamera returns a new camera at (0, 0, 0) that is pointing at (0, 0, -1).
-func NewCamera(aspectRatio float64) *Camera {
+func NewCamera(tangent, normal Vec3, aspectRatio float64) *Camera {
 	return &Camera{
 		position:    NewVec3(0.0, 0.0, 0.0),
-		tangent:     NewVec3(0.0, 0.0, -1.0),
-		normal:      NewVec3(0.0, 1.0, 0.0),
-		binormal:    NewVec3(1.0, 0.0, 0.0),
+		tangent:     tangent,
+		normal:      normal,
+		binormal:    tangent.Cross(normal).Normalize(),
 		aspectRatio: aspectRatio,
 		normHeight:  1.0,
 	}
@@ -37,7 +37,7 @@ func (c *Camera) LookAt() {
 }
 
 // LookAtQuat sets the basis vectors of the camera using a quaternion.
-func (c *Camera) LookAtQuat(r, i, k, k float64) {
+func (c *Camera) LookAtQuat(r, i, j, k float64) {
 	rotation := NewMat3()
 
 	rotation.Set(0, 0, 1.0-2.0*(i*i+j*j))
@@ -51,8 +51,10 @@ func (c *Camera) LookAtQuat(r, i, k, k float64) {
 	rotation.Set(2, 0, 2.0*(j*r-i*k))
 	rotation.Set(2, 1, 2.0*(i*j+r*k))
 	rotation.Set(2, 2, 1.0-2.0*(i*i+r*r))
+
+	rotation = rotation.T()
 }
 
 func (c *Camera) RayThrough(i, j int) Ray {
-
+	return NewRay(NewVec3(0, 0, 0), NewVec3(0, 0, 0))
 }

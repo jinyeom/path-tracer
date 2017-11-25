@@ -5,8 +5,8 @@ type Mat3 struct {
 	data [9]float64
 }
 
-// NewZeros returns a 3x3 zero matrix.
-func NewZeros() Mat3 {
+// NewMat3 returns a 3x3 zero matrix.
+func NewMat3() Mat3 {
 	return Mat3{
 		data: [9]float64{
 			0.0, 0.0, 0.0,
