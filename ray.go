@@ -6,10 +6,10 @@ type Ray struct {
 }
 
 // NewRay returns a new Ray with the argument position and direction.
-func NewRay(p, d Vec3) Ray {
-	return Ray{p, d}
+func NewRay(p, d Vec3) *Ray {
+	return &Ray{p, d}
 }
 
-func (r Ray) At(t float64) Vec3 {
+func (r *Ray) At(t float64) Vec3 {
 	return r.P.Add(r.D.ScalarMul(t))
 }

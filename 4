@@ -12,13 +12,14 @@ type Camera struct {
 	normHeight  float64 // normalized height of the camera lense
 }
 
-func NewCamera(position, tangent, normal Vec3) *Camera {
+// NewCamera returns a new camera at (0, 0, 0) that is pointing at (0, 0, -1).
+func NewCamera(tangent, normal Vec3, aspectRatio float64) *Camera {
 	return &Camera{
-		position:    position,
+		position:    NewVec3(0.0, 0.0, 0.0),
 		tangent:     tangent,
 		normal:      normal,
 		binormal:    tangent.Cross(normal).Normalize(),
-		aspectRatio: 1.0,
+		aspectRatio: aspectRatio,
 		normHeight:  1.0,
 	}
 }
