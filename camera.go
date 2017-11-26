@@ -35,6 +35,6 @@ func (c *Camera) LookAt() {
 
 }
 
-func (c *Camera) RayThrough(i, j int) Ray {
+func (c *Camera) RayThrough(i, j int) *Ray {
 	return NewRay(NewVec3(0, 0, 0), NewVec3(0, 0, 0))
 }

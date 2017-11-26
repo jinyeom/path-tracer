@@ -52,4 +52,7 @@ func (m Mat3) SetCol(j int, v Vec3) {
 // DotVec3 returns a dot product with the argument vector.
 func (m Mat3) DotVec3(v Vec3) Vec3 {
 
+	// TODO: implementation
+
+	return NewVec3(0.0, 0.0, 0.0)
 }

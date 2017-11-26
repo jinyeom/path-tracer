@@ -1,20 +1,23 @@
 package main
 
+import "math/rand"
+
 type PathTracer struct {
 	Scene  *Scene
 	Camera *Camera
 }
 
 func NewPathTracer(config *Config) *PathTracer {
+	pos, tangent, normal := config.Camera()
 	return &PathTracer{
 		Scene:  NewScene(),
-		Camera: NewCamera(),
+		Camera: NewCamera(pos, tangent, normal),
 	}
 }
 
 func (p *PathTracer) TraceAt(i, j int) Vec3 {
 
-	return NewVec3(0.0, 0.0, 0.0)
+	return NewVec3(rand.Float64(), rand.Float64(), rand.Float64())
 }
 
 func (p *PathTracer) Render(b *Buffer) {
