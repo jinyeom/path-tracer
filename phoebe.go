@@ -15,7 +15,7 @@ func main() {
 
 	flag.Parse()
 
-	tracer := NewPathTracer(*samples)
+	tracer := NewPathTracer(*samples, config)
 	buf := NewBuffer(*width, *height)
 	tracer.Render(buf)
 	buf.ExportPNG("test.png")

@@ -3,15 +3,12 @@ package main
 type PathTracer struct {
 	Scene  *Scene
 	Camera *Camera
-
-	samples int
 }
 
-func NewPathTracer(samples int) *PathTracer {
+func NewPathTracer(config *Config) *PathTracer {
 	return &PathTracer{
-		Scene:   NewScene(),
-		Camera:  NewCamera(),
-		samples: samples,
+		Scene:  NewScene(),
+		Camera: NewCamera(),
 	}
 }
 
