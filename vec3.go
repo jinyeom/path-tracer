@@ -10,7 +10,7 @@ type Vec3 struct {
 	X, Y, Z float64
 }
 
-// NewVec3 returns a new Vec3.
+// NewVec3 returns a new Vec3.
 func NewVec3(x, y, z float64) Vec3 {
 	return Vec3{x, y, z}
 }

@@ -48,6 +48,7 @@ func NewConfigJSON(fileName string) (*Config, error) {
 	return &config, nil
 }
 
+// Summary prints the summary of the configuration.
 func (c *Config) Summary() {
 	fmt.Println("=============== Configuration Summary ===============")
 

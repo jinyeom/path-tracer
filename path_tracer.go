@@ -17,6 +17,8 @@ func NewPathTracer(config *Config) *PathTracer {
 
 func (p *PathTracer) TraceAt(i, j int) Vec3 {
 
+	// TODO: implementation
+
 	return NewVec3(rand.Float64(), rand.Float64(), rand.Float64())
 }
 
