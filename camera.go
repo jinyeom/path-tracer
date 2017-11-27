@@ -12,6 +12,8 @@ type Camera struct {
 	normHeight  float64 // normalized height of the camera lense
 }
 
+// NewCamera returns a new camera given its position and basis vectors. Note that only tangent and
+// normal vectors are provided, since the binormal vector can be computed with tangent and normal.
 func NewCamera(position, tangent, normal Vec3) *Camera {
 	return &Camera{
 		position:    position,
@@ -23,10 +25,13 @@ func NewCamera(position, tangent, normal Vec3) *Camera {
 	}
 }
 
+// Position returns the position coordinates of the camera.
 func (c *Camera) Position() Vec3 {
 	return c.position
 }
 
+// BasisVecs returns all the basis vectors of the camera, which include its tangent, normal, and
+// binormal vectors.
 func (c *Camera) BasisVecs() (Vec3, Vec3, Vec3) {
 	return c.tangent, c.normal, c.binormal
 }
