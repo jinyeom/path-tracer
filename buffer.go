@@ -31,7 +31,7 @@ func (b *Buffer) Dims() (int, int) {
 	return b.width, b.height
 }
 
-func (b *Buffer) SetIntensityAt(i, j int, rgb Vec3) {
+func (b *Buffer) SetIntensityAt(i, j int, rgb *Vec3) {
 	rVal := uint8(255. * math.Min(math.Max(rgb.X, 0.0), 1.0))
 	gVal := uint8(255. * math.Min(math.Max(rgb.Y, 0.0), 1.0))
 	bVal := uint8(255. * math.Min(math.Max(rgb.Z, 0.0), 1.0))

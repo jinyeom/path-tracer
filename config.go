@@ -73,7 +73,7 @@ func (c *Config) Summary() {
 
 // Camera returns configurations for the camera, which are its position, its tangent vector,
 // and its normal vector.
-func (c *Config) Camera() (Vec3, Vec3, Vec3) {
+func (c *Config) Camera() (*Vec3, *Vec3, *Vec3) {
 	pos := NewVec3(c.CameraPosition[0], c.CameraPosition[1], c.CameraPosition[2])
 	t := NewVec3(c.CameraTangent[0], c.CameraTangent[1], c.CameraTangent[2])
 	n := NewVec3(c.CameraNormal[0], c.CameraNormal[1], c.CameraNormal[2])

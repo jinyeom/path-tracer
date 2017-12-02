@@ -2,6 +2,7 @@ package main
 
 import "math/rand"
 
+// PathTracer
 type PathTracer struct {
 	Scene  *Scene
 	Camera *Camera
@@ -15,7 +16,7 @@ func NewPathTracer(config *Config) *PathTracer {
 	}
 }
 
-func (p *PathTracer) TraceAt(i, j int) Vec3 {
+func (p *PathTracer) TraceAt(i, j int) *Vec3 {
 
 	// TODO: implementation
 

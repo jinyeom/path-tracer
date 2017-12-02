@@ -1,7 +1,7 @@
 package main
 
 type Material struct {
-	color        Vec3    // color
+	color        *Vec3    // color
 	emissive     float64 // emissive
 	ambient      float64 // ambient
 	specular     float64 // specular
@@ -10,4 +10,11 @@ type Material struct {
 	transmissive float64 // transmissive
 	refractIndex float64 // refractive index
 	shininess    float64 // shininess
+}
+
+func NewDiffusiveMaterial(color *Vec3) *Material {
+	return &Material{
+		color: color,
+
+	}
 }
