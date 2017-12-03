@@ -22,11 +22,12 @@ type Config struct {
 	SceneBoundMin [3]float64 `json:"sceneBoundMin"`
 	SceneBoundMax [3]float64 `json:"sceneBoundMax"`
 
-	// Camera configurations which include its position, tangent vector, and normal vector.
-	// Note that its binormal vector is computed internally with the tangent and normal vectors.
-	CameraPosition [3]float64 `json:"cameraPosition"`
-	CameraTangent  [3]float64 `json:"cameraTangent"`
-	CameraNormal   [3]float64 `json:"cameraNormal"`
+	// Camera configurations which include its position, center of the scene, and up direction.
+	// Note that its binormal vector is computed internally with the tangent and normal vectors
+	// that are computed from center and up.
+	CameraEye    [3]float64 `json:"cameraEye"`
+	CameraCenter [3]float64 `json:"cameraCenter"`
+	CameraUp     [3]float64 `json:"cameraUp"`
 
 	// Sample size for Monte Carlo integration. The sample size will specify how many rays with
 	// random directions are sampled from a ray intersection.
@@ -36,13 +37,15 @@ type Config struct {
 // NewDefaultConfig returns a Config with default configuration.
 func NewDefaultConfig() *Config {
 	return &Config{
-		FileName:       fmt.Sprintf("phoebe_%d.png", time.Now().UnixNano()),
-		Width:          800,
-		Height:         600,
-		CameraPosition: [3]float64{0.0, 0.0, 0.0},
-		CameraTangent:  [3]float64{0.0, 0.0, -1.0},
-		CameraNormal:   [3]float64{0.0, 1.0, 0.0},
-		SampleSize:     100,
+		FileName:      fmt.Sprintf("phoebe_%d.png", time.Now().UnixNano()),
+		Width:         800,
+		Height:        600,
+		SceneBoundMin: [3]float64{-5.0, -5.0, -5.0},
+		SceneBoundMax: [3]float64{5.0, 5.0, 5.0},
+		CameraEye:     [3]float64{0.0, 0.0, 0.0},
+		CameraCenter:  [3]float64{0.0, 0.0, -1.0},
+		CameraUp:      [3]float64{0.0, 1.0, 0.0},
+		SampleSize:    100,
 	}
 }
 
@@ -75,23 +78,23 @@ func (c *Config) Summary() {
 	fmt.Fprintf(w, "+ Image dimensions: \t(%d, %d)\n", c.Width, c.Height)
 	fmt.Fprintln(w, "-----------------------------------------------------")
 
-	// Print the camera settings.
-	x, y, z := c.CameraPosition[0], c.CameraPosition[1], c.CameraPosition[2]
-	tx, ty, tz := c.CameraTangent[0], c.CameraTangent[1], c.CameraTangent[2]
-	nx, ny, nz := c.CameraNormal[0], c.CameraNormal[1], c.CameraNormal[2]
-
-	fmt.Fprintln(w, "+ Camera settings:")
-	fmt.Fprintf(w, "  Position: \t(%.3f, %.3f, %.3f)\n", x, y, z)
-	fmt.Fprintf(w, "  Tangent: \t(%.3f, %.3f, %.3f)\n", tx, ty, tz)
-	fmt.Fprintf(w, "  Normal: \t(%.3f, %.3f, %.3f)\n", nx, ny, nz)
-	fmt.Fprintln(w, "-----------------------------------------------------")
-
 	// Print the scene boundary settings.
 	minX, minY, minZ := c.SceneBoundMin[0], c.SceneBoundMin[1], c.SceneBoundMin[2]
 	maxX, maxY, maxZ := c.SceneBoundMax[0], c.SceneBoundMax[1], c.SceneBoundMax[2]
 	fmt.Fprintln(w, "+ Scene boundary settings:")
 	fmt.Fprintf(w, "  Low: \t(%.3f, %.3f, %.3f)\n", minX, minY, minZ)
 	fmt.Fprintf(w, "  High: \t(%.3f, %.3f, %.3f)\n", maxX, maxY, maxZ)
+	fmt.Fprintln(w, "-----------------------------------------------------")
+
+	// Print the camera settings.
+	x, y, z := c.CameraEye[0], c.CameraEye[1], c.CameraEye[2]
+	tx, ty, tz := c.CameraCenter[0], c.CameraCenter[1], c.CameraCenter[2]
+	nx, ny, nz := c.CameraUp[0], c.CameraUp[1], c.CameraUp[2]
+
+	fmt.Fprintln(w, "+ Camera settings:")
+	fmt.Fprintf(w, "  Eye: \t(%.3f, %.3f, %.3f)\n", x, y, z)
+	fmt.Fprintf(w, "  Center: \t(%.3f, %.3f, %.3f)\n", tx, ty, tz)
+	fmt.Fprintf(w, "  Up: \t(%.3f, %.3f, %.3f)\n", nx, ny, nz)
 	fmt.Fprintln(w, "-----------------------------------------------------")
 
 	// Print the sample size.
@@ -108,11 +111,11 @@ func (c *Config) SceneBound() *BoundBox {
 	return NewBoundBox(boundMin, boundMax)
 }
 
-// Camera returns configurations for the camera, which are its position, its tangent vector,
-// and its normal vector.
-func (c *Config) Camera() (*Vec3, *Vec3, *Vec3) {
-	pos := NewVec3(c.CameraPosition[0], c.CameraPosition[1], c.CameraPosition[2])
-	t := NewVec3(c.CameraTangent[0], c.CameraTangent[1], c.CameraTangent[2])
-	n := NewVec3(c.CameraNormal[0], c.CameraNormal[1], c.CameraNormal[2])
-	return pos, t, n
+// EyeCenterUp returns the position (eye), center coordinates, and up direction.
+func (c *Config) EyeCenterUp() (*Vec3, *Vec3, *Vec3) {
+	eye := NewVec3(c.CameraEye[0], c.CameraEye[1], c.CameraEye[2])
+	center := NewVec3(c.CameraCenter[0], c.CameraCenter[1], c.CameraCenter[2])
+	up := NewVec3(c.CameraUp[0], c.CameraUp[1], c.CameraUp[2])
+
+	return eye, center, up
 }

@@ -2,6 +2,11 @@ package main
 
 import "math/rand"
 
+const (
+	// epsilon is a very small number that approximates 0 for cases like collision detection.
+	epsilon = 1e-8
+)
+
 // PathTracer
 type PathTracer struct {
 	Scene  *Scene
@@ -17,8 +22,8 @@ func NewPathTracer(config *Config) *PathTracer {
 	// TODO: add objects to the scene according to the config.
 
 	// Build the camera.
-	pos, tangent, normal := config.Camera()
-	camera := NewCamera(pos, tangent, normal)
+	eye, center, up := config.EyeCenterUp()
+	camera := NewCamera(eye, center, up)
 
 	return &PathTracer{
 		Scene:  scene,

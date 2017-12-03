@@ -4,8 +4,8 @@
     "height": 600,
     "sceneBoundMin": [-10.0, -10.0, -10.0],
     "sceneBoundMax": [10.0, 10.0, 10.0],
-    "cameraPosition": [0.0, 0.0, 0.0],
-    "cameraTangent": [0.0, 0.0, -1.0],
-    "cameraNormal": [0.0, 1.0, 0.0],
+    "cameraEye": [0.0, 0.0, 0.0],
+    "cameraCenter": [0.0, 0.0, -1.0],
+    "cameraUp": [0.0, 1.0, 0.0],
     "sampleSize": 100
 }
