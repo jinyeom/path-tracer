@@ -8,11 +8,21 @@ type PathTracer struct {
 	Camera *Camera
 }
 
+// NewPathTracer constructs and returns a new path tracer according to the argument configuration.
 func NewPathTracer(config *Config) *PathTracer {
+	// Build the scene.
+	sceneBound := config.SceneBound()
+	scene := NewScene(sceneBound)
+
+	// TODO: add objects to the scene according to the config.
+
+	// Build the camera.
 	pos, tangent, normal := config.Camera()
+	camera := NewCamera(pos, tangent, normal)
+
 	return &PathTracer{
-		Scene:  NewScene(),
-		Camera: NewCamera(pos, tangent, normal),
+		Scene:  scene,
+		Camera: camera,
 	}
 }
 
