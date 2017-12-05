@@ -22,9 +22,14 @@ func NewPlane(position, normal *Vec3, material *Material) *Plane {
 // Return nil if the ray doesn't intersect.
 func (p *Plane) Intersect(r *Ray) *Intersect {
 	d := p.normal.Dot(r.Direction())
-
-	// TODO: implement ray's intersection with the plane.
-
+	if d < epsilon {
+		return nil
+	}
+	a := p.position.Subtract(r.Position())
+	t := a.Dot(p.normal) / d
+	if t < epsilon {
+		return nil
+	}
 	return NewIntersect(0.0)
 }
 

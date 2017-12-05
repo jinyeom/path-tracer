@@ -9,6 +9,11 @@ import (
 	"time"
 )
 
+const (
+	// epsilon is a very small number that approximates 0 for cases like collision detection.
+	epsilon = 1e-8
+)
+
 // Config contains the configuration from a JSON file.
 type Config struct {
 	// Name of the output file.

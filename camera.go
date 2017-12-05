@@ -14,7 +14,7 @@ type Camera struct {
 
 // NewCamera returns a new camera given its position and basis vectors. Note that only tangent and
 // normal vectors are provided, since the binormal vector can be computed with tangent and normal.
-func NewCamera(eye, center, up *Vec3) *Camera {
+func NewCamera(eye, center, up *Vec3, width, height int) *Camera {
 	tangent := center.Subtract(eye).Normalize()
 	normal := up.Cross(tangent).Normalize()
 	binormal := tangent.Cross(normal).Normalize()
@@ -23,11 +23,12 @@ func NewCamera(eye, center, up *Vec3) *Camera {
 		tangent:     tangent,
 		normal:      normal,
 		binormal:    binormal,
-		aspectRatio: 1.0,
+		aspectRatio: float64(width) / float64(height),
 		normHeight:  1.0,
 	}
 }
 
+// RayThrough returns a ray from the camera towards a pixel position.
 func (c *Camera) RayThrough(i, j, width, height int) *Ray {
 
 	return NewRay(NewVec3(0, 0, 0), NewVec3(0, 0, 0))
