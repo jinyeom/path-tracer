@@ -1,8 +1,11 @@
 package main
 
+import "fmt"
+
 // Geometry is an interface for objects in a scene, that are visible to the camera via rays.
 // Any thing that can intersect with a ray is a geometry.
 type Geometry interface {
+	String() string
 	Intersect(r *Ray) *Intersect
 }
 
@@ -16,6 +19,11 @@ type Plane struct {
 // NewPlane returns a new Plane, given its position and normal.
 func NewPlane(position, normal *Vec3, material *Material) *Plane {
 	return &Plane{position, normal, material}
+}
+
+func (p *Plane) String() string {
+	return fmt.Sprintf("Plane(p=(%.3f, %.3f, %.3f), n=(%.3f, %.3f, %.3f))",
+		p.position.X, p.position.Y, p.position.Z, p.normal.X, p.normal.Y, p.normal.X)
 }
 
 // Intersect checks if the argument ray intersects with the plane.

@@ -34,6 +34,10 @@ func main() {
 
 	buf := NewBuffer(config.Width, config.Height) // Create an image buffer.
 	tracer := NewPathTracer(config)               // Build a path tracer with the configuration.
-	tracer.Render(buf)                            // With the path tracer, render onto the buffer.
-	buf.ExportPNG(config.FileName)                // Export the image as a PNG file.
+
+	plane := NewPlane(NewVec3(0, 0, 0), NewVec3(0.3, 0.3, 1.0), nil)
+	tracer.Scene.AddObject(plane)
+
+	tracer.Render(buf)             // With the path tracer, render onto the buffer.
+	buf.ExportPNG(config.FileName) // Export the image as a PNG file.
 }

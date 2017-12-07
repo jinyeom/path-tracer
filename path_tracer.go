@@ -1,9 +1,13 @@
 package main
 
-import "math/rand"
+import (
+	"fmt"
+	"math/rand"
+)
 
 // PathTracer
 type PathTracer struct {
+	Config *Config
 	Scene  *Scene
 	Camera *Camera
 }
@@ -18,28 +22,40 @@ func NewPathTracer(config *Config) *PathTracer {
 
 	// Build the camera.
 	eye, center, up := config.EyeCenterUp()
-	camera := NewCamera(eye, center, up, config.Width, config.Height)
+	camera := NewCamera(eye, center, up)
 
 	return &PathTracer{
+		Config: config,
 		Scene:  scene,
 		Camera: camera,
 	}
 }
 
-func (p *PathTracer) TraceAt(i, j int) *Vec3 {
+func (p *PathTracer) TraceAt(x, y int) *Vec3 {
 
 	// TODO: implementation
 
-	return NewVec3(rand.Float64(), rand.Float64(), rand.Float64())
+	// Cast a ray through at pixel at (x, y).
+	r := p.Camera.RayThrough(x, y, p.Config.Width, p.Config.Height)
+	for _, g := range p.Scene.Objects() {
+		fmt.Println(g.String())
+
+		// If there is an intersection from this ray with an object in the scene,
+		if isect := g.Intersect(r); isect != nil {
+			fmt.Println("INTERSECTION!")
+			return NewVec3(rand.Float64(), rand.Float64(), rand.Float64())
+		}
+	}
+	return NewVec3(0, 0, 0)
 }
 
 func (p *PathTracer) Render(b *Buffer) {
 	width, height := b.Dims()
-	for i := 0; i < width; i++ {
-		for j := 0; j < height; j++ {
+	for x := 0; x < width; x++ {
+		for y := 0; y < height; y++ {
 			// Set the intensity of the pixel in buffer.
-			rgb := p.TraceAt(i, j)
-			b.SetIntensityAt(i, j, rgb)
+			rgb := p.TraceAt(x, y)
+			b.SetIntensityAt(x, y, rgb)
 		}
 	}
 }

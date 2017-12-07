@@ -14,6 +14,14 @@ func NewScene(bound *BoundBox) *Scene {
 	}
 }
 
+func (s *Scene) Bound() *BoundBox {
+	return s.bound
+}
+
+func (s *Scene) Objects() []Geometry {
+	return s.objects
+}
+
 // AddObject appends a new Geometry to the slice of objects.
 func (s *Scene) AddObject(g Geometry) {
 	s.objects = append(s.objects, g)

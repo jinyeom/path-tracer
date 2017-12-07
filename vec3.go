@@ -15,6 +15,11 @@ func NewVec3(x, y, z float64) *Vec3 {
 	return &Vec3{x, y, z}
 }
 
+// Copy returns a deep copy of the vector
+func (v *Vec3) Copy() *Vec3 {
+	return NewVec3(v.X, v.Y, v.Z)
+}
+
 // String returns the string representation of the vector.
 func (v *Vec3) String() string {
 	return fmt.Sprintf("vec3(%f, %f, %f)", v.X, v.Y, v.Z)
