@@ -38,8 +38,6 @@ func (p *PathTracer) TraceAt(x, y int) *Vec3 {
 	// Cast a ray through at pixel at (x, y).
 	r := p.Camera.RayThrough(x, y, p.Config.Width, p.Config.Height)
 	for _, g := range p.Scene.Objects() {
-		fmt.Println(g.String())
-
 		// If there is an intersection from this ray with an object in the scene,
 		if isect := g.Intersect(r); isect != nil {
 			fmt.Println("INTERSECTION!")
