@@ -8,8 +8,14 @@ import (
 // Geometry is an interface for objects in a scene, that are visible to the camera via rays.
 // Any thing that can intersect with a ray is a geometry.
 type Geometry interface {
+	// String returns the string representation of the geometry.
 	String() string
+
+	// Material returns the material property of the geometry.
 	Material() *Material
+
+	// Intersect checks if the ray intersects with the geometry and returns the intersection.
+	// Return nil if the argument ray doesn't intersect with the geometry.
 	Intersect(r *Ray) *Intersect
 }
 
@@ -57,6 +63,7 @@ func NewPlane(position, normal *Vec3, material *Material) *Plane {
 	return &Plane{position, normal, material}
 }
 
+// String returns the string representation of the plane.
 func (p *Plane) String() string {
 	return fmt.Sprintf("Plane(p=(%.3f, %.3f, %.3f), n=(%.3f, %.3f, %.3f))",
 		p.position.X, p.position.Y, p.position.Z, p.normal.X, p.normal.Y, p.normal.X)
