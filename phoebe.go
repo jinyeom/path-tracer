@@ -35,7 +35,10 @@ func main() {
 	buf := NewBuffer(config.Width, config.Height)
 	tracer := NewPathTracer(config)
 
-	plane := NewSphere(NewVec3(0.0, 0.0, -10.0), 3.0, nil)
+	// temporary!
+	plane := NewPlane(NewVec3(0.0, 0.0, -20.0), NewVec3(0.0, 0.0, 1.0), NewMaterial(NewVec3(0.0, 0.0, 1.0)))
+	sphere := NewSphere(NewVec3(0.0, 0.0, -10.0), 3.0, NewMaterial(NewVec3(1.0, 0.0, 0.0)))
+	tracer.Scene.AddObject(sphere)
 	tracer.Scene.AddObject(plane)
 
 	tracer.Render(buf)

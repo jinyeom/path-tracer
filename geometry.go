@@ -9,6 +9,7 @@ import (
 // Any thing that can intersect with a ray is a geometry.
 type Geometry interface {
 	String() string
+	Material() *Material
 	Intersect(r *Ray) *Intersect
 }
 
@@ -30,6 +31,11 @@ func (t *Triangle) String() string {
 	b := fmt.Sprintf("b=(%.3f, %.3f, %.3f)", t.b.X, t.b.Y, t.b.Z)
 	c := fmt.Sprintf("c=(%.3f, %.3f, %.3f)", t.c.X, t.c.Y, t.c.Z)
 	return fmt.Sprintf("Triangle(%s, %s, %s)", a, b, c)
+}
+
+// Material returns the triangle's material.
+func (t *Triangle) Material() *Material {
+	return t.material
 }
 
 func (t *Triangle) Intersect(r *Ray) *Intersect {
@@ -54,6 +60,11 @@ func NewPlane(position, normal *Vec3, material *Material) *Plane {
 func (p *Plane) String() string {
 	return fmt.Sprintf("Plane(p=(%.3f, %.3f, %.3f), n=(%.3f, %.3f, %.3f))",
 		p.position.X, p.position.Y, p.position.Z, p.normal.X, p.normal.Y, p.normal.X)
+}
+
+// Material returns the plane's material.
+func (p *Plane) Material() *Material {
+	return p.material
 }
 
 // Intersect checks if the argument ray intersects with the plane.
@@ -87,6 +98,11 @@ func NewSphere(position *Vec3, radius float64, material *Material) *Sphere {
 func (s *Sphere) String() string {
 	return fmt.Sprintf("Sphere(p=(%.3f, %.3f, %.3f), r=%.3f)",
 		s.position.X, s.position.Y, s.position.Z, s.radius)
+}
+
+// Material returns the sphere's material.
+func (s *Sphere) Material() *Material {
+	return s.material
 }
 
 // Intersect checks if the argument ray intersects with the sphere.

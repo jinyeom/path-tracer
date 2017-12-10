@@ -1,9 +1,5 @@
 package main
 
-import (
-	"math/rand"
-)
-
 // PathTracer renders a 3D scene onto a 2D image.
 type PathTracer struct {
 	Config *Config
@@ -32,15 +28,15 @@ func NewPathTracer(config *Config) *PathTracer {
 
 // TraceAt casts a ray from the camera through a pixel at (x, y).
 func (p *PathTracer) TraceAt(x, y int) *Vec3 {
-
-	// TODO: implementation
-
 	// Cast a ray through at pixel at (x, y).
 	r := p.Camera.RayThrough(x, y, p.Config.Width, p.Config.Height)
 	for _, g := range p.Scene.Objects() {
 		// If there is an intersection from this ray with an object in the scene,
 		if isect := g.Intersect(r); isect != nil {
-			return NewVec3(rand.Float64(), rand.Float64(), rand.Float64())
+
+			// TODO: implement
+
+			return g.Material().Color()
 		}
 	}
 	return NewVec3(0, 0, 0)
