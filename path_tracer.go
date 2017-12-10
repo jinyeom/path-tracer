@@ -28,6 +28,8 @@ func NewPathTracer(config *Config) *PathTracer {
 
 // TraceAt casts a ray from the camera through a pixel at (x, y).
 func (p *PathTracer) TraceAt(x, y int) *Vec3 {
+	minT := 10000.0 // very large T value for comparison
+
 	// Cast a ray through at pixel at (x, y).
 	r := p.Camera.RayThrough(x, y, p.Config.Width, p.Config.Height)
 	for _, g := range p.Scene.Objects() {

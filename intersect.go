@@ -16,3 +16,8 @@ func NewIntersect(t float64, geometry Geometry) *Intersect {
 		geometry: geometry,
 	}
 }
+
+// T returns the t value of the intersect.
+func (i *Intersect) T() float64 {
+	return i.t
+}
