@@ -32,10 +32,10 @@ func main() {
 	// Print summary of the configuration.
 	config.Summary()
 
-	buf := NewBuffer(config.Width, config.Height) // Create an image buffer.
-	tracer := NewPathTracer(config)               // Build a path tracer with the configuration.
+	buf := NewBuffer(config.Width, config.Height)
+	tracer := NewPathTracer(config)
 
-	plane := NewPlane(NewVec3(10, 10, 10), NewVec3(0.3, 0.3, 1.0), nil)
+	plane := NewSphere(NewVec3(0.0, 0.0, -10.0), 3.0, nil)
 	tracer.Scene.AddObject(plane)
 
 	tracer.Render(buf)

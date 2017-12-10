@@ -31,6 +31,7 @@ func (b *Buffer) Dims() (int, int) {
 	return b.width, b.height
 }
 
+// SetIntensityAt sets the pixel value at the argument coordinates (i, j).
 func (b *Buffer) SetIntensityAt(i, j int, rgb *Vec3) {
 	rVal := uint8(255. * math.Min(math.Max(rgb.X, 0.0), 1.0))
 	gVal := uint8(255. * math.Min(math.Max(rgb.Y, 0.0), 1.0))

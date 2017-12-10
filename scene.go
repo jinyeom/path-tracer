@@ -14,10 +14,12 @@ func NewScene(bound *BoundBox) *Scene {
 	}
 }
 
+// Bound returns the bounding box of the scene.
 func (s *Scene) Bound() *BoundBox {
 	return s.bound
 }
 
+// Objects returns the list of objects (Geometry) in the scene.
 func (s *Scene) Objects() []Geometry {
 	return s.objects
 }
