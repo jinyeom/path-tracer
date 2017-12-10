@@ -38,7 +38,7 @@ func (p *Plane) Intersect(r *Ray) *Intersect {
 	if t < epsilon {
 		return nil
 	}
-	return NewIntersect(0.0)
+	return NewIntersect(t, p)
 }
 
 // Sphere is defined by its position (center), and its radius.
@@ -53,9 +53,14 @@ func NewSphere(position *Vec3, radius float64, material *Material) *Sphere {
 	return &Sphere{position, radius, material}
 }
 
+func (s *Sphere) String() string {
+	return fmt.Sprintf("Sphere(p=(%.3f, %.3f, %.3f), r=%.3f)",
+		s.position.X, s.position.Y, s.position.Z, s.radius)
+}
+
 // Intersect checks if the argument ray intersects with the sphere.
 // Return nil if the ray doesn't intersect.
 func (s *Sphere) Intersect(r *Ray) *Intersect {
 
-	return NewIntersect(0.0)
+	return NewIntersect(0.0, s)
 }

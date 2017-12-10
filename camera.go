@@ -39,5 +39,5 @@ func (c *Camera) RayThrough(x, y, width, height int) *Ray {
 	direction = direction.Add(c.binormal.ScalarMul(-dirY))
 	direction = direction.Normalize()
 
-	return NewRay(direction, c.position)
+	return NewRay(c.position, direction)
 }

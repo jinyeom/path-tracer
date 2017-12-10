@@ -5,11 +5,14 @@ type Intersect struct {
 	t        float64   // t value
 	position Vec3      // position coordinates
 	normal   Vec3      // normal vector
-	object   Geometry  // object on which intersection happened
+	geometry Geometry  // geometry on which intersection happened
 	material *Material // material at this intersection
 }
 
 // NewIntersect returns a new intersect.
-func NewIntersect(t float64) *Intersect {
-	return &Intersect{}
+func NewIntersect(t float64, geometry Geometry) *Intersect {
+	return &Intersect{
+		t:        t,
+		geometry: geometry,
+	}
 }

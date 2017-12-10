@@ -20,7 +20,7 @@ func main() {
 	if len(os.Args) >= 2 {
 		config, err = NewConfigJSON(os.Args[1])
 		if err != nil {
-			fmt.Println(err)
+			fmt.Printf("\x1B[93m%s\n\x1B[0m", err)
 			fmt.Println("Rendering with default configuration...")
 			config = NewDefaultConfig()
 		}
@@ -35,9 +35,12 @@ func main() {
 	buf := NewBuffer(config.Width, config.Height) // Create an image buffer.
 	tracer := NewPathTracer(config)               // Build a path tracer with the configuration.
 
-	plane := NewPlane(NewVec3(0, 0, 0), NewVec3(0.3, 0.3, 1.0), nil)
+	plane := NewPlane(NewVec3(10, 10, 10), NewVec3(0.3, 0.3, 1.0), nil)
 	tracer.Scene.AddObject(plane)
 
-	tracer.Render(buf)             // With the path tracer, render onto the buffer.
-	buf.ExportPNG(config.FileName) // Export the image as a PNG file.
+	tracer.Render(buf)
+	if err := buf.ExportPNG(config.FileName); err != nil {
+		fmt.Printf("\x1B[91m%s\n\x1B[0m", err)
+		fmt.Println("Image export failed, exiting...")
+	}
 }

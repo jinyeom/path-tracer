@@ -30,9 +30,9 @@ type Config struct {
 	// Camera configurations which include its position, center of the scene, and up direction.
 	// Note that its binormal vector is computed internally with the tangent and normal vectors
 	// that are computed from center and up.
-	CameraEye    [3]float64 `json:"cameraEye"`
-	CameraCenter [3]float64 `json:"cameraCenter"`
-	CameraUp     [3]float64 `json:"cameraUp"`
+	CameraEye    [3]float64 `json:"cameraEye"`    // camera position
+	CameraCenter [3]float64 `json:"cameraCenter"` // center of the screen
+	CameraUp     [3]float64 `json:"cameraUp"`     // camera's up direction
 
 	// Sample size for Monte Carlo integration. The sample size will specify how many rays with
 	// random directions are sampled from a ray intersection.

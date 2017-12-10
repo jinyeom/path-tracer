@@ -22,7 +22,7 @@ func (v *Vec3) Copy() *Vec3 {
 
 // String returns the string representation of the vector.
 func (v *Vec3) String() string {
-	return fmt.Sprintf("vec3(%f, %f, %f)", v.X, v.Y, v.Z)
+	return fmt.Sprintf("Vec3(%.3f, %.3f, %.3f)", v.X, v.Y, v.Z)
 }
 
 // Add returns the sum of this vector and another vector.
