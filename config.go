@@ -36,21 +36,23 @@ type Config struct {
 
 	// Sample size for Monte Carlo integration. The sample size will specify how many rays with
 	// random directions are sampled from a ray intersection.
-	SampleSize int `json:"sampleSize"`
+	PixelSampleSize     int `json:"pixelSampleSize"`
+	IntersectSampleSize int `json:"intersectSampleSize"`
 }
 
 // NewDefaultConfig returns a Config with default configuration.
 func NewDefaultConfig() *Config {
 	return &Config{
-		FileName:      fmt.Sprintf("phoebe_%d.png", time.Now().UnixNano()),
-		Width:         800,
-		Height:        600,
-		SceneBoundMin: [3]float64{-5.0, -5.0, -5.0},
-		SceneBoundMax: [3]float64{5.0, 5.0, 5.0},
-		CameraEye:     [3]float64{0.0, 0.0, 0.0},
-		CameraCenter:  [3]float64{0.0, 0.0, -1.0},
-		CameraUp:      [3]float64{0.0, 1.0, 0.0},
-		SampleSize:    100,
+		FileName:            fmt.Sprintf("phoebe_%d.png", time.Now().UnixNano()),
+		Width:               800,
+		Height:              600,
+		SceneBoundMin:       [3]float64{-5.0, -5.0, -5.0},
+		SceneBoundMax:       [3]float64{5.0, 5.0, 5.0},
+		CameraEye:           [3]float64{0.0, 0.0, 0.0},
+		CameraCenter:        [3]float64{0.0, 0.0, -1.0},
+		CameraUp:            [3]float64{0.0, 1.0, 0.0},
+		PixelSampleSize:     10,
+		IntersectSampleSize: 100,
 	}
 }
 
@@ -103,7 +105,8 @@ func (c *Config) Summary() {
 	fmt.Fprintln(w, "-----------------------------------------------------")
 
 	// Print the sample size.
-	fmt.Fprintf(w, "+ Sample size: \t%d\n", c.SampleSize)
+	fmt.Fprintf(w, "+ Pixel sample size: \t%d\n", c.PixelSampleSize)
+	fmt.Fprintf(w, "+ Intersection sample size: \t%d\n", c.IntersectSampleSize)
 	fmt.Fprintln(w, "-----------------------------------------------------")
 
 	fmt.Fprintln(w, "=====================================================")

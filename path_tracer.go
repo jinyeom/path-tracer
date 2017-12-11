@@ -31,7 +31,7 @@ func (p *PathTracer) TraceAt(x, y int) *Vec3 {
 	r := p.Camera.RayThrough(x, y, p.Config.Width, p.Config.Height)
 	if isect := p.Scene.Intersect(r); isect != nil {
 		// intensity := NewVec3(0.0, 0.0, 0.0)
-
+		return isect.Geometry().Material().Color()
 	}
 
 	// TODO: Implement environment background.
@@ -45,8 +45,12 @@ func (p *PathTracer) Render(b *Buffer) {
 	for x := 0; x < width; x++ {
 		for y := 0; y < height; y++ {
 			// Set the intensity of the pixel in buffer.
-			rgb := p.TraceAt(x, y)
-			b.SetIntensityAt(x, y, rgb)
+			intensity := NewVec3(0.0, 0.0, 0.0)
+			for i := 0; i < p.Config.PixelSampleSize; i++ {
+				intensity = intensity.Add(p.TraceAt(x, y))
+			}
+			intensity = intensity.ScalarDiv(float64(p.Config.PixelSampleSize))
+			b.SetIntensityAt(x, y, intensity)
 		}
 	}
 }
