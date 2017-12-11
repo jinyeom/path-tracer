@@ -36,8 +36,21 @@ func main() {
 	tracer := NewPathTracer(config)
 
 	// temporary!
-	sphere := NewSphere(NewVec3(0.0, 0.0, -10.0), 3.0, NewMaterial(NewVec3(1.0, 0.0, 0.0)))
-	tracer.Scene.AddObject(sphere)
+	sphere1 := NewSphere(NewVec3(0, 0, -10), 3.0, NewMaterial(NewVec3(0.1, 0.3, 0.7)))
+	sphere2 := NewSphere(NewVec3(-2, -2, -7), 1.0, NewMaterial(NewVec3(0.8, 0.4, 0.2)))
+	plane1 := NewPlane(NewVec3(0, 10, -10), NewVec3(0, -1, 0), NewMaterial(NewVec3(0.9, 0.9, 0.9)))
+	plane2 := NewPlane(NewVec3(0, 0, -20), NewVec3(0, 0, 1), NewMaterial(NewVec3(0.8, 0.8, 0.8)))
+	plane3 := NewPlane(NewVec3(0, -10, -10), NewVec3(0, 1, 0), NewMaterial(NewVec3(0.7, 0.7, 0.7)))
+	plane4 := NewPlane(NewVec3(10, 0, -10), NewVec3(-1, 0, 0), NewMaterial(NewVec3(0, 0.7, 0)))
+	plane5 := NewPlane(NewVec3(-10, 0, -10), NewVec3(1, 0, 0), NewMaterial(NewVec3(1, 0, 0)))
+
+	tracer.Scene.AddObject(sphere1)
+	tracer.Scene.AddObject(sphere2)
+	tracer.Scene.AddObject(plane1)
+	tracer.Scene.AddObject(plane2)
+	tracer.Scene.AddObject(plane3)
+	tracer.Scene.AddObject(plane4)
+	tracer.Scene.AddObject(plane5)
 
 	tracer.Render(buf)
 	if err := buf.ExportPNG(config.FileName); err != nil {

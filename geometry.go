@@ -14,6 +14,9 @@ type Geometry interface {
 	// Material returns the material property of the geometry.
 	Material() *Material
 
+	// Normal returns the normal vector at a position.
+	Normal(position *Vec3) *Vec3
+
 	// Intersect checks if the ray intersects with the geometry and returns the intersection.
 	// Return nil if the argument ray doesn't intersect with the geometry.
 	Intersect(r *Ray) *Intersect
@@ -44,11 +47,18 @@ func (t *Triangle) Material() *Material {
 	return t.material
 }
 
+// Normal returns the normal vector of the triangle.
+func (t *Triangle) Normal(position *Vec3) *Vec3 {
+	return NewVec3(0.0, 0.0, 0.0)
+}
+
+// Intersect checks if the argument ray intersects with the triangle and returns the intersection.
+// Return nil if the ray doesn't intersect with triangle.
 func (t *Triangle) Intersect(r *Ray) *Intersect {
 	// edgeAB := t.b.Subtract(t.a)
 	// edgeAC := t.c.Subtract(t.a)
 
-	return NewIntersect(0.0, nil)
+	return NewIntersect(r, t, 0.0)
 }
 
 // Plane is defined by its position in 3D space and its normal that defines its angle.
@@ -69,6 +79,11 @@ func (p *Plane) String() string {
 		p.position.X, p.position.Y, p.position.Z, p.normal.X, p.normal.Y, p.normal.X)
 }
 
+// Normal returns the normal vector of the plane.
+func (p *Plane) Normal(position *Vec3) *Vec3 {
+	return p.normal
+}
+
 // Material returns the plane's material.
 func (p *Plane) Material() *Material {
 	return p.material
@@ -86,7 +101,7 @@ func (p *Plane) Intersect(r *Ray) *Intersect {
 	if t < epsilon {
 		return nil
 	}
-	return NewIntersect(t, p)
+	return NewIntersect(r, p, t)
 }
 
 // Sphere is defined by its position (center), and its radius.
@@ -112,6 +127,11 @@ func (s *Sphere) Material() *Material {
 	return s.material
 }
 
+// Normal returns the normal vector at the argument coordinates.
+func (s *Sphere) Normal(position *Vec3) *Vec3 {
+	return position.Subtract(s.position).Normalize()
+}
+
 // Intersect checks if the argument ray intersects with the sphere.
 // Return nil if the ray doesn't intersect.
 func (s *Sphere) Intersect(r *Ray) *Intersect {
@@ -122,10 +142,10 @@ func (s *Sphere) Intersect(r *Ray) *Intersect {
 	if disc > 0.0 {
 		disc = math.Sqrt(disc)
 		if t1 := -b + disc; t1 > epsilon {
-			return NewIntersect(t1, s)
+			return NewIntersect(r, s, t1)
 		}
 		if t2 := -b - disc; t2 > epsilon {
-			return NewIntersect(t2, s)
+			return NewIntersect(r, s, t2)
 		}
 	}
 	return nil

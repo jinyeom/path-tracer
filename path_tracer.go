@@ -28,20 +28,23 @@ func NewPathTracer(config *Config) *PathTracer {
 
 // TraceAt casts a ray from the camera through a pixel at (x, y).
 func (p *PathTracer) TraceAt(x, y int) *Vec3 {
-	minT := 10000.0 // very large T value for comparison
-
-	// Cast a ray through at pixel at (x, y).
+	minT := 10000.0 // some very large value
+	isects := make(map[float64]*Intersect)
 	r := p.Camera.RayThrough(x, y, p.Config.Width, p.Config.Height)
 	for _, g := range p.Scene.Objects() {
 		// If there is an intersection from this ray with an object in the scene,
 		if isect := g.Intersect(r); isect != nil {
-
-			// TODO: implement
-
-			return g.Material().Color()
+			t := isect.T()
+			isects[t] = isect
+			if t < minT {
+				minT = t
+			}
 		}
 	}
-	return NewVec3(0, 0, 0)
+	if len(isects) == 0 {
+		return NewVec3(0.0, 0.0, 0.0)
+	}
+	return isects[minT].Geometry().Material().Color()
 }
 
 // Render traces rays through the buffer and sets each pixel value.

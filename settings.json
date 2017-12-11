@@ -1,6 +1,6 @@
 {
     "fileName": "phoebe_test.png",
-    "width": 800,
+    "width": 600,
     "height": 600,
     "sceneBoundMin": [-10.0, -10.0, -10.0],
     "sceneBoundMax": [10.0, 10.0, 10.0],

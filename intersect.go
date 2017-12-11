@@ -2,19 +2,25 @@ package main
 
 // Intersect encapsulates all information of an intersection between a ray and an object.
 type Intersect struct {
-	t        float64   // t value
-	position Vec3      // position coordinates
-	normal   Vec3      // normal vector
-	geometry Geometry  // geometry on which intersection happened
-	material *Material // material at this intersection
+	ray      *Ray
+	geometry Geometry
+	position *Vec3
+	t        float64
 }
 
 // NewIntersect returns a new intersect.
-func NewIntersect(t float64, geometry Geometry) *Intersect {
+func NewIntersect(ray *Ray, geometry Geometry, t float64) *Intersect {
 	return &Intersect{
-		t:        t,
+		ray:      ray,
 		geometry: geometry,
+		position: ray.At(t),
+		t:        t,
 	}
+}
+
+// Geometry returns the geometry on which the intersection lies.
+func (i *Intersect) Geometry() Geometry {
+	return i.geometry
 }
 
 // T returns the t value of the intersect.
