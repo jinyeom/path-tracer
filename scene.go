@@ -14,17 +14,27 @@ func NewScene(bound *BoundBox) *Scene {
 	}
 }
 
-// Bound returns the bounding box of the scene.
-func (s *Scene) Bound() *BoundBox {
-	return s.bound
-}
-
-// Objects returns the list of objects (Geometry) in the scene.
-func (s *Scene) Objects() []Geometry {
-	return s.objects
-}
-
 // AddObject appends a new Geometry to the slice of objects.
 func (s *Scene) AddObject(g Geometry) {
 	s.objects = append(s.objects, g)
+}
+
+// Intersect checks if there is any intersection between the argument ray and any object in the
+// scene; return the intersection with the lowest t value, and nil if there are no intersection.
+func (s *Scene) Intersect(r *Ray) *Intersect {
+	minT := 10000.0 // some very large value
+	isects := make(map[float64]*Intersect)
+	for _, geometry := range s.objects {
+		if isect := geometry.Intersect(r); isect != nil {
+			t := isect.T()
+			isects[t] = isect
+			if t < minT {
+				minT = t
+			}
+		}
+	}
+	if len(isects) == 0 {
+		return nil
+	}
+	return isects[minT]
 }

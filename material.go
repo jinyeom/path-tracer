@@ -19,6 +19,20 @@ func NewMaterial(color *Vec3) *Material {
 	}
 }
 
+func NewDiffusiveMaterial(color *Vec3) *Material {
+	return &Material{
+		color:        color,
+		emissive:     0.0,
+		ambient:      0.0,
+		specular:     0.0,
+		diffusive:    1.0,
+		reflective:   -1.0,
+		transmissive: 0.0,
+		refractIndex: 0.0,
+		shininess:    0.0,
+	}
+}
+
 // Color returns the color of the material.
 func (m *Material) Color() *Vec3 {
 	return m.color

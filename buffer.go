@@ -36,7 +36,6 @@ func (b *Buffer) SetIntensityAt(i, j int, rgb *Vec3) {
 	rVal := uint8(255. * math.Min(math.Max(rgb.X, 0.0), 1.0))
 	gVal := uint8(255. * math.Min(math.Max(rgb.Y, 0.0), 1.0))
 	bVal := uint8(255. * math.Min(math.Max(rgb.Z, 0.0), 1.0))
-
 	b.buffer.SetRGBA(i, j, color.RGBA{rVal, gVal, bVal, 255})
 }
 
@@ -45,7 +44,6 @@ func (b *Buffer) ExportPNG(filename string) error {
 	if path.Ext(filename) != ".png" {
 		return errors.New("phoebe: file name must have an extension of .png")
 	}
-
 	// Create a new image file with the current time as its filename.
 	f, err := os.Create(filename)
 	defer f.Close()

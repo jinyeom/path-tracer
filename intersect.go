@@ -5,15 +5,19 @@ type Intersect struct {
 	ray      *Ray
 	geometry Geometry
 	position *Vec3
+	normal   *Vec3
 	t        float64
 }
 
 // NewIntersect returns a new intersect.
 func NewIntersect(ray *Ray, geometry Geometry, t float64) *Intersect {
+	position := ray.At(t)
+	normal := geometry.Normal(position)
 	return &Intersect{
 		ray:      ray,
 		geometry: geometry,
-		position: ray.At(t),
+		position: position,
+		normal:   normal,
 		t:        t,
 	}
 }

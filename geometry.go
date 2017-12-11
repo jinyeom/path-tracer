@@ -22,44 +22,44 @@ type Geometry interface {
 	Intersect(r *Ray) *Intersect
 }
 
-// Triangle is a Geometry that is defined by 3 points and its normal.
-type Triangle struct {
-	a, b, c  *Vec3     // three points that define the triangle
-	normal   *Vec3     // normal vector of the triangle
-	material *Material // material property of the triangle surface
-}
+// // Triangle is a Geometry that is defined by 3 points and its normal.
+// type Triangle struct {
+// 	a, b, c  *Vec3     // three points that define the triangle
+// 	normal   *Vec3     // normal vector of the triangle
+// 	material *Material // material property of the triangle surface
+// }
 
-// NewTriangle returns a new Triangle given three points that define the triangle.
-func NewTriangle(a, b, c, normal *Vec3, material *Material) *Triangle {
-	return &Triangle{a, b, c, normal, material}
-}
+// // NewTriangle returns a new Triangle given three points that define the triangle.
+// func NewTriangle(a, b, c, normal *Vec3, material *Material) *Triangle {
+// 	return &Triangle{a, b, c, normal, material}
+// }
 
-// String returns the string representation of the triangle.
-func (t *Triangle) String() string {
-	a := fmt.Sprintf("a=(%.3f, %.3f, %.3f)", t.a.X, t.a.Y, t.a.Z)
-	b := fmt.Sprintf("b=(%.3f, %.3f, %.3f)", t.b.X, t.b.Y, t.b.Z)
-	c := fmt.Sprintf("c=(%.3f, %.3f, %.3f)", t.c.X, t.c.Y, t.c.Z)
-	return fmt.Sprintf("Triangle(%s, %s, %s)", a, b, c)
-}
+// // String returns the string representation of the triangle.
+// func (t *Triangle) String() string {
+// 	a := fmt.Sprintf("a=(%.3f, %.3f, %.3f)", t.a.X, t.a.Y, t.a.Z)
+// 	b := fmt.Sprintf("b=(%.3f, %.3f, %.3f)", t.b.X, t.b.Y, t.b.Z)
+// 	c := fmt.Sprintf("c=(%.3f, %.3f, %.3f)", t.c.X, t.c.Y, t.c.Z)
+// 	return fmt.Sprintf("Triangle(%s, %s, %s)", a, b, c)
+// }
 
-// Material returns the triangle's material.
-func (t *Triangle) Material() *Material {
-	return t.material
-}
+// // Material returns the triangle's material.
+// func (t *Triangle) Material() *Material {
+// 	return t.material
+// }
 
-// Normal returns the normal vector of the triangle.
-func (t *Triangle) Normal(position *Vec3) *Vec3 {
-	return NewVec3(0.0, 0.0, 0.0)
-}
+// // Normal returns the normal vector of the triangle.
+// func (t *Triangle) Normal(position *Vec3) *Vec3 {
+// 	return NewVec3(0.0, 0.0, 0.0)
+// }
 
-// Intersect checks if the argument ray intersects with the triangle and returns the intersection.
-// Return nil if the ray doesn't intersect with triangle.
-func (t *Triangle) Intersect(r *Ray) *Intersect {
-	// edgeAB := t.b.Subtract(t.a)
-	// edgeAC := t.c.Subtract(t.a)
+// // Intersect checks if the argument ray intersects with the triangle and returns the intersection.
+// // Return nil if the ray doesn't intersect with triangle.
+// func (t *Triangle) Intersect(r *Ray) *Intersect {
+// 	// edgeAB := t.b.Subtract(t.a)
+// 	// edgeAC := t.c.Subtract(t.a)
 
-	return NewIntersect(r, t, 0.0)
-}
+// 	return NewIntersect(r, t, 0.0)
+// }
 
 // Plane is defined by its position in 3D space and its normal that defines its angle.
 type Plane struct {
