@@ -1,29 +1,21 @@
 package main
 
 type Material struct {
-	color    *Vec3   // color
-	emissive float64 // emissiveness
+	color *Vec3 // color
+
+	// TODO: add more properties of material.
+	//
+	// For now, I'm going to stick to just color, but obviously there are more than
+	// colors to a material.
 }
 
-func NewMaterial(color *Vec3, emissive float64) *Material {
+func NewMaterial(color *Vec3) *Material {
 	return &Material{
-		color:    color,
-		emissive: emissive,
-	}
-}
-
-func NewDiffusiveMaterial(color *Vec3) *Material {
-	return &Material{
-		color:    color,
-		emissive: 0.0,
+		color: color,
 	}
 }
 
 // Color returns the color of the material.
 func (m *Material) Color() *Vec3 {
 	return m.color
-}
-
-func (m *Material) Emissive() float64 {
-	return m.emissive
 }

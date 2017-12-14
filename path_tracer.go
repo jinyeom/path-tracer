@@ -43,19 +43,16 @@ func (p *PathTracer) TraceAt(x, y int) *Vec3 {
 // traceRay
 func (p *PathTracer) traceRay(r *Ray, depth int) *Vec3 {
 	if depth < 0 {
+		// TODO: Implement environment background.
+		// Not too important right now... But for sure in the future!
 		return NewVec3(0.0, 0.0, 0.0)
 	}
 	if isect := p.Scene.Intersect(r); isect != nil {
 		position := isect.Position()
-		material := isect.Geometry().Material()
 		numSamples := p.Config.IntersectSampleSize
 
 		// Total pixel intensity, initialized as black.
-		intensity := NewVec3(0.0, 0.0, 0.0)
-
-		if ke := material.Emissive(); ke > 0.0 {
-			intensity = intensity.Add(material.Color().ScalarMul(ke * float64(numSamples)))
-		}
+		indirect := NewVec3(0.0, 0.0, 0.0)
 
 		// On the intersection point, setup a coordinate system, from which reflection rays
 		// are sampled from the hemisphere on it.
@@ -76,9 +73,9 @@ func (p *PathTracer) traceRay(r *Ray, depth int) *Vec3 {
 			worldZ := sample.X*binormal.Z + sample.Y*normal.Z + sample.Z*tangent.Z
 			sample = NewVec3(worldX, worldY, worldZ)
 
-			intensity = intensity.Add(p.traceRay(NewRay(position, sample), depth-1).ScalarMul(a))
+			indirect = indirect.Add(p.traceRay(NewRay(position, sample), depth-1).ScalarMul(a))
 		}
-		return intensity.ScalarDiv(float64(numSamples) / (2.0 * math.Pi))
+		return indirect.ScalarDiv(float64(numSamples) / (2.0 * math.Pi))
 	}
 	// TODO: Implement environment background.
 	// Not too important right now... But for sure in the future!
@@ -114,8 +111,6 @@ func sampleHemisphere(a, b float64) *Vec3 {
 
 // Render traces rays through the buffer and sets each pixel value.
 func (p *PathTracer) Render(b *Buffer) {
-	fmt.Println("Rendering...")
-
 	numCPU := p.Config.NumCPU
 	runtime.GOMAXPROCS(numCPU)
 
@@ -146,28 +141,29 @@ func (p *PathTracer) Render(b *Buffer) {
 			}
 		}(i)
 	}
-	progress(0, height)
+	fmt.Println("Rendering...")
+	fmt.Printf(progress(0, height))
 	for i := 0; i < height; i++ {
-		<-ch
-		progress(i+1, height)
+		fmt.Printf(progress(i+<-ch, height))
 	}
-	fmt.Printf("\n")
+	fmt.Println(" ✔")
 	wg.Wait()
 }
 
-func progress(curr, total int) {
+// progress returns the current state of the progress bar.
+func progress(curr, total int) string {
 	percentage := 100 * float64(curr) / float64(total)
-	fmt.Printf("\r[")
+	str := fmt.Sprintf("\r")
 	for i := 0; i < 100; i += 2 {
 		if int(percentage) > i {
-			fmt.Print("\x1B[38;5;82m█\x1B[0m")
+			str += fmt.Sprintf("\x1B[38;5;82m█\x1B[0m")
 		} else if int(percentage) == i {
-			fmt.Print("\x1B[38;5;83m▆\x1B[0m")
+			str += fmt.Sprintf("\x1B[38;5;82m▆\x1B[0m")
 		} else if int(percentage) == i-1 {
-			fmt.Print("\x1B[38;5;84m▃\x1B[0m")
+			str += fmt.Sprintf("\x1B[38;5;82m▃\x1B[0m")
 		} else {
-			fmt.Print("\x1B[38;5;85m▁\x1B[0m")
+			str += fmt.Sprintf("\x1B[38;5;82m▁\x1B[0m")
 		}
 	}
-	fmt.Printf("]")
+	return str
 }
