@@ -1,13 +1,14 @@
 {
     "fileName": "phoebe_test.png",
-    "width": 500,
-    "height": 500,
+    "seed": 0,
+    "width": 1000,
+    "height": 1000,
     "sceneBoundMin": [-10.0, -10.0, -10.0],
     "sceneBoundMax": [10.0, 10.0, 10.0],
     "cameraEye": [0.0, 0.0, 0.0],
     "cameraCenter": [0.0, 0.0, -1.0],
     "cameraUp": [0.0, 1.0, 0.0],
-    "pixelSampleSize": 4,
+    "pixelSampleSize": 9,
     "intersectSampleSize": 4,
     "traceDepth": 2
 }

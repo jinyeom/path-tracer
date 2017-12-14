@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 	"os"
 )
 
@@ -32,6 +33,9 @@ func main() {
 	// Print summary of the configuration.
 	config.Summary()
 
+	// Seed the random number generator.
+	rand.Seed(config.Seed)
+
 	buf := NewBuffer(config.Width, config.Height)
 	tracer := NewPathTracer(config)
 
@@ -42,12 +46,15 @@ func main() {
 	// Adding objects should be a part of the config JSON file.
 	//
 	// TODO: move objects and lights to config.
-	sphere1 := NewSphere(NewVec3(0, 0, -10), 4.0, NewMaterial(NewVec3(0.1, 0.3, 0.7)))
-	sphere2 := NewSphere(NewVec3(-2, -2, -7), 2.0, NewMaterial(NewVec3(0.8, 0.4, 0.2)))
-	plane1 := NewPlane(NewVec3(0, 10, -10), NewVec3(0, -1, 0), NewMaterial(NewVec3(0.9, 0.9, 0.9)))
-	plane2 := NewPlane(NewVec3(0, 0, -20), NewVec3(0, 0, 1), NewMaterial(NewVec3(0.8, 0.8, 0.8)))
+	randColor1 := NewVec3(rand.Float64(), rand.Float64(), rand.Float64())
+	randColor2 := NewVec3(rand.Float64(), rand.Float64(), rand.Float64())
+
+	sphere1 := NewSphere(NewVec3(0, -6, -10), 4.0, NewMaterial(randColor1))
+	sphere2 := NewSphere(NewVec3(-2, -2, -5), 2.0, NewMaterial(randColor2))
+	plane1 := NewPlane(NewVec3(0, 10, -10), NewVec3(0, -1, 0), NewMaterial(NewVec3(0.7, 0.7, 0.7)))
+	plane2 := NewPlane(NewVec3(0, 0, -20), NewVec3(0, 0, 1), NewMaterial(NewVec3(0.7, 0.7, 0.7)))
 	plane3 := NewPlane(NewVec3(0, -10, -10), NewVec3(0, 1, 0), NewMaterial(NewVec3(0.7, 0.7, 0.7)))
-	plane4 := NewPlane(NewVec3(10, 0, -10), NewVec3(-1, 0, 0), NewMaterial(NewVec3(0, 0.7, 0)))
+	plane4 := NewPlane(NewVec3(10, 0, -10), NewVec3(-1, 0, 0), NewMaterial(NewVec3(0, 1, 0)))
 	plane5 := NewPlane(NewVec3(-10, 0, -10), NewVec3(1, 0, 0), NewMaterial(NewVec3(1, 0, 0)))
 	tracer.Scene.AddObject(sphere1)
 	tracer.Scene.AddObject(sphere2)

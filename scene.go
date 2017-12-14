@@ -16,6 +16,11 @@ func NewScene(bound *BoundBox) *Scene {
 	}
 }
 
+// Lights returns all of the lights in the scene.
+func (s *Scene) Lights() []Light {
+	return s.lights
+}
+
 // AddObject appends a new Geometry to the slice of objects.
 func (s *Scene) AddObject(g Geometry) {
 	s.objects = append(s.objects, g)

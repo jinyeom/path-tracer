@@ -17,7 +17,12 @@ func NewVec3(x, y, z float64) *Vec3 {
 
 // Copy returns a deep copy of the vector
 func (v *Vec3) Copy() *Vec3 {
-	return NewVec3(v.X, v.Y, v.Z)
+	return &Vec3{v.X, v.Y, v.Z}
+}
+
+// Neg returns the negative of this vector.
+func (v *Vec3) Neg() *Vec3 {
+	return &Vec3{-v.X, -v.Y, -v.Z}
 }
 
 // String returns the string representation of the vector.
@@ -43,6 +48,11 @@ func (v *Vec3) ScalarMul(s float64) *Vec3 {
 // ScalarDiv returns the division with a scalar value.
 func (v *Vec3) ScalarDiv(s float64) *Vec3 {
 	return &Vec3{v.X / s, v.Y / s, v.Z / s}
+}
+
+// Mul returns the element-wise product with the argument vector.
+func (v *Vec3) Mul(v1 *Vec3) *Vec3 {
+	return &Vec3{v.X * v1.X, v.Y * v1.Y, v.Z * v1.Z}
 }
 
 // Dot returns the dot product with another vector.

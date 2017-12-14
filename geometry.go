@@ -136,17 +136,32 @@ func (s *Sphere) Normal(position *Vec3) *Vec3 {
 // Return nil if the ray doesn't intersect.
 func (s *Sphere) Intersect(r *Ray) *Intersect {
 	v := r.Position().Subtract(s.position)
-	b := v.Dot(r.Direction())
+	a := r.Direction().Dot(r.Direction())
+	b := 2.0 * v.Dot(r.Direction())
 	c := v.Dot(v) - s.radius*s.radius
-	disc := b*b - c
-	if disc > 0.0 {
-		disc = math.Sqrt(disc)
-		if t1 := -b + disc; t1 > epsilon {
-			return NewIntersect(r, s, t1)
-		}
-		if t2 := -b - disc; t2 > epsilon {
-			return NewIntersect(r, s, t2)
-		}
+	solved, t0, t1 := solveQuadratic(a, b, c)
+	if !solved {
+		return nil
+	}
+	if t := math.Max(t0, t1); t > epsilon {
+		return NewIntersect(r, s, t)
 	}
 	return nil
+}
+
+func solveQuadratic(a, b, c float64) (bool, float64, float64) {
+	disc := b*b - 4.0*a*c
+	if disc == 0.0 {
+		t := -0.5 * b / a
+		return true, t, t
+	} else if disc > 0.0 {
+		var q float64
+		if b > 0 {
+			q = -0.5 * (b + math.Sqrt(disc))
+		} else {
+			q = -0.5 * (b - math.Sqrt(disc))
+		}
+		return true, q / a, c / q
+	}
+	return false, 0.0, 0.0
 }

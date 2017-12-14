@@ -1,7 +1,7 @@
 package main
 
 type Material struct {
-	color *Vec3 // color
+	color *Vec3
 
 	// TODO: add more properties of material.
 	//

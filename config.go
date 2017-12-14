@@ -24,6 +24,9 @@ type Config struct {
 	// Name of the output file.
 	FileName string `json:"fileName"`
 
+	// Random seed.
+	Seed int64 `json:"seed"`
+
 	// Dimensions of the rendered image.
 	Width  int `json:"width"`
 	Height int `json:"height"`
@@ -53,6 +56,7 @@ func NewDefaultConfig() *Config {
 	return &Config{
 		NumCPU:              runtime.NumCPU(),
 		FileName:            fmt.Sprintf("phoebe_%d.png", time.Now().UnixNano()),
+		Seed:                0,
 		Width:               800,
 		Height:              800,
 		SceneBoundMin:       [3]float64{-5.0, -5.0, -5.0},
@@ -60,9 +64,9 @@ func NewDefaultConfig() *Config {
 		CameraEye:           [3]float64{0.0, 0.0, 0.0},
 		CameraCenter:        [3]float64{0.0, 0.0, -1.0},
 		CameraUp:            [3]float64{0.0, 1.0, 0.0},
-		PixelSampleSize:     16,
-		IntersectSampleSize: 16,
-		TraceDepth:          5,
+		PixelSampleSize:     9,
+		IntersectSampleSize: 4,
+		TraceDepth:          3,
 	}
 }
 
@@ -93,6 +97,10 @@ func (c *Config) Summary() {
 
 	// Print the output file name.
 	fmt.Fprintf(w, "+ Output file name: \t%s\n", c.FileName)
+	fmt.Fprintln(w, "-----------------------------------------------------")
+
+	// Print the random seed.
+	fmt.Fprintf(w, "+ Random seed: \t%d\n", c.Seed)
 	fmt.Fprintln(w, "-----------------------------------------------------")
 
 	// Print the output image dimensions.

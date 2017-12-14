@@ -51,7 +51,17 @@ func (p *PathTracer) traceRay(r *Ray, depth int) *Vec3 {
 		position := isect.Position()
 		numSamples := p.Config.IntersectSampleSize
 
-		// Total pixel intensity, initialized as black.
+		// Direct lighting
+		direct := NewVec3(0.0, 0.0, 0.0)
+		for _, light := range p.Scene.Lights() {
+			direction, intensity := light.Illuminate(isect.Position())
+			direction = direction.Neg() // negate the direction so that it points toward the light
+			if visible := p.Scene.Intersect(NewRay(isect.Position(), direction)); visible == nil {
+				direct = intensity.ScalarMul(math.Max(0.0, isect.Normal().Dot(direction)))
+			}
+		}
+
+		// Indirect lighting
 		indirect := NewVec3(0.0, 0.0, 0.0)
 
 		// On the intersection point, setup a coordinate system, from which reflection rays
@@ -73,13 +83,21 @@ func (p *PathTracer) traceRay(r *Ray, depth int) *Vec3 {
 			worldZ := sample.X*binormal.Z + sample.Y*normal.Z + sample.Z*tangent.Z
 			sample = NewVec3(worldX, worldY, worldZ)
 
-			indirect = indirect.Add(p.traceRay(NewRay(position, sample), depth-1).ScalarMul(a))
+			// I = sum(f(X_i) / pdf(X_i), for i = 1 ... N) / N; pdf = 1.0 / (2.0 * Pi)
+			//   = sum(f(X_i) * 2.0 * Pi) for i = 1 ... N) / N
+			sampleRay := NewRay(position, sample)
+			fXiOverPdf := p.traceRay(sampleRay, depth-1).ScalarMul(a * 2.0 * math.Pi)
+			indirect = indirect.Add(fXiOverPdf)
 		}
-		return indirect.ScalarDiv(float64(numSamples) / (2.0 * math.Pi))
+		indirect = indirect.ScalarDiv(float64(numSamples))
+
+		// Return the total intensity.
+		color := isect.Geometry().Material().Color()
+		return direct.ScalarDiv(math.Pi).Add(indirect.ScalarMul(2.0)).Mul(color)
 	}
 	// TODO: Implement environment background.
 	// Not too important right now... But for sure in the future!
-	return NewVec3(0.0, 0.0, 0.0)
+	return NewVec3(1.0, 1.0, 1.0)
 }
 
 // createCoordSys creates a coordinate system given an intersection.
