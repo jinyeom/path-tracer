@@ -38,6 +38,9 @@ type Config struct {
 	// random directions are sampled from a ray intersection.
 	PixelSampleSize     int `json:"pixelSampleSize"`
 	IntersectSampleSize int `json:"intersectSampleSize"`
+
+	// Recursion depth for tracing rays.
+	TraceDepth int `json:"traceDepth"`
 }
 
 // NewDefaultConfig returns a Config with default configuration.
@@ -45,14 +48,15 @@ func NewDefaultConfig() *Config {
 	return &Config{
 		FileName:            fmt.Sprintf("phoebe_%d.png", time.Now().UnixNano()),
 		Width:               800,
-		Height:              600,
+		Height:              800,
 		SceneBoundMin:       [3]float64{-5.0, -5.0, -5.0},
 		SceneBoundMax:       [3]float64{5.0, 5.0, 5.0},
 		CameraEye:           [3]float64{0.0, 0.0, 0.0},
 		CameraCenter:        [3]float64{0.0, 0.0, -1.0},
 		CameraUp:            [3]float64{0.0, 1.0, 0.0},
-		PixelSampleSize:     10,
-		IntersectSampleSize: 100,
+		PixelSampleSize:     16,
+		IntersectSampleSize: 16,
+		TraceDepth:          5,
 	}
 }
 

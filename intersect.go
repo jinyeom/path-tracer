@@ -27,6 +27,11 @@ func (i *Intersect) Geometry() Geometry {
 	return i.geometry
 }
 
+// Position returns the position of the intersection.
+func (i *Intersect) Position() *Vec3 {
+	return i.position
+}
+
 // T returns the t value of the intersect.
 func (i *Intersect) T() float64 {
 	return i.t

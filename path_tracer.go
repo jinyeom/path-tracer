@@ -28,12 +28,32 @@ func NewPathTracer(config *Config) *PathTracer {
 
 // TraceAt casts a ray from the camera through a pixel at (x, y).
 func (p *PathTracer) TraceAt(x, y int) *Vec3 {
-	r := p.Camera.RayThrough(x, y, p.Config.Width, p.Config.Height)
+	ray := p.Camera.RayThrough(x, y, p.Config.Width, p.Config.Height)
+	return p.traceRay(ray, p.Config.TraceDepth)
+}
+
+// traceRay
+func (p *PathTracer) traceRay(r *Ray, depth int) *Vec3 {
+	if depth < 0 {
+		return NewVec3(0.0, 0.0, 0.0)
+	}
 	if isect := p.Scene.Intersect(r); isect != nil {
-		// intensity := NewVec3(0.0, 0.0, 0.0)
+		position := isect.Position()
+
+		// total pixel intensity
+		intensity := NewVec3(0.0, 0.0, 0.0)
+
+		// Randomly sample reflection rays.
+		// Note that this process can be optimized by sampling reflections with more likely
+		// angles rather than doing so completely randomly. Keep this in mind, but don't worry
+		// about this right now!
+		for i := 0; i < p.Config.IntersectSampleSize; i++ {
+			// reflective ray
+
+			// refractive ray
+		}
 		return isect.Geometry().Material().Color()
 	}
-
 	// TODO: Implement environment background.
 	// Not too important right now... But for sure in the future!
 	return NewVec3(0.0, 0.0, 0.0)
@@ -45,11 +65,12 @@ func (p *PathTracer) Render(b *Buffer) {
 	for x := 0; x < width; x++ {
 		for y := 0; y < height; y++ {
 			// Set the intensity of the pixel in buffer.
+			sampleSize := p.Config.PixelSampleSize
 			intensity := NewVec3(0.0, 0.0, 0.0)
-			for i := 0; i < p.Config.PixelSampleSize; i++ {
+			for i := 0; i < sampleSize; i++ {
 				intensity = intensity.Add(p.TraceAt(x, y))
 			}
-			intensity = intensity.ScalarDiv(float64(p.Config.PixelSampleSize))
+			intensity = intensity.ScalarDiv(float64(sampleSize))
 			b.SetIntensityAt(x, y, intensity)
 		}
 	}

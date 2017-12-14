@@ -7,6 +7,7 @@
     "cameraEye": [0.0, 0.0, 0.0],
     "cameraCenter": [0.0, 0.0, -1.0],
     "cameraUp": [0.0, 1.0, 0.0],
-    "pixelSampleSize": 50,
-    "intersectSampleSize": 100
+    "pixelSampleSize": 16,
+    "intersectSampleSize": 16,
+    "traceDepth": 5
 }
