@@ -32,6 +32,11 @@ func (i *Intersect) Position() *Vec3 {
 	return i.position
 }
 
+// Normal returns the normal at the intersection.
+func (i *Intersect) Normal() *Vec3 {
+	return i.normal
+}
+
 // T returns the t value of the intersect.
 func (i *Intersect) T() float64 {
 	return i.t

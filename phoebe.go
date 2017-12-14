@@ -40,13 +40,13 @@ func main() {
 	//
 	// Creating and adding objects to the scene will be moved to configuration.
 	// Adding objects should be a part of the config JSON file.
-	sphere1 := NewSphere(NewVec3(0, 0, -10), 4.0, NewMaterial(NewVec3(0.1, 0.3, 0.7)))
-	sphere2 := NewSphere(NewVec3(-2, -2, -7), 2.0, NewMaterial(NewVec3(0.8, 0.4, 0.2)))
-	plane1 := NewPlane(NewVec3(0, 10, -10), NewVec3(0, -1, 0), NewMaterial(NewVec3(0.9, 0.9, 0.9)))
-	plane2 := NewPlane(NewVec3(0, 0, -20), NewVec3(0, 0, 1), NewMaterial(NewVec3(0.8, 0.8, 0.8)))
-	plane3 := NewPlane(NewVec3(0, -10, -10), NewVec3(0, 1, 0), NewMaterial(NewVec3(0.7, 0.7, 0.7)))
-	plane4 := NewPlane(NewVec3(10, 0, -10), NewVec3(-1, 0, 0), NewMaterial(NewVec3(0, 0.7, 0)))
-	plane5 := NewPlane(NewVec3(-10, 0, -10), NewVec3(1, 0, 0), NewMaterial(NewVec3(1, 0, 0)))
+	sphere1 := NewSphere(NewVec3(0, 0, -10), 4.0, NewMaterial(NewVec3(0.1, 0.3, 0.7), 0.5))
+	sphere2 := NewSphere(NewVec3(-2, -2, -7), 2.0, NewMaterial(NewVec3(0.8, 0.4, 0.2), 0.5))
+	plane1 := NewPlane(NewVec3(0, 10, -10), NewVec3(0, -1, 0), NewMaterial(NewVec3(0.9, 0.9, 0.9), 0.5))
+	plane2 := NewPlane(NewVec3(0, 0, -20), NewVec3(0, 0, 1), NewMaterial(NewVec3(0.8, 0.8, 0.8), 0.5))
+	plane3 := NewPlane(NewVec3(0, -10, -10), NewVec3(0, 1, 0), NewMaterial(NewVec3(0.7, 0.7, 0.7), 0.5))
+	plane4 := NewPlane(NewVec3(10, 0, -10), NewVec3(-1, 0, 0), NewMaterial(NewVec3(0, 0.7, 0), 0.5))
+	plane5 := NewPlane(NewVec3(-10, 0, -10), NewVec3(1, 0, 0), NewMaterial(NewVec3(1, 0, 0), 0.5))
 
 	tracer.Scene.AddObject(sphere1)
 	tracer.Scene.AddObject(sphere2)

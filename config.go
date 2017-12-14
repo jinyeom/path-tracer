@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"runtime"
 	"text/tabwriter"
 	"time"
 )
@@ -16,6 +17,10 @@ const (
 
 // Config contains the configuration from a JSON file.
 type Config struct {
+	// Number of CPU cores used.
+	// Note that this setting isn't imported from the user settings.
+	NumCPU int
+
 	// Name of the output file.
 	FileName string `json:"fileName"`
 
@@ -46,6 +51,7 @@ type Config struct {
 // NewDefaultConfig returns a Config with default configuration.
 func NewDefaultConfig() *Config {
 	return &Config{
+		NumCPU:              runtime.NumCPU(),
 		FileName:            fmt.Sprintf("phoebe_%d.png", time.Now().UnixNano()),
 		Width:               800,
 		Height:              800,
@@ -66,7 +72,7 @@ func NewConfigJSON(fileName string) (*Config, error) {
 	if err != nil {
 		return nil, err
 	}
-	config := Config{}
+	config := Config{NumCPU: runtime.NumCPU()}
 	if err = json.Unmarshal(dat, &config); err != nil {
 		return nil, err
 	}
@@ -79,6 +85,10 @@ func (c *Config) Summary() {
 	defer w.Flush()
 
 	fmt.Fprintln(w, "=============== Configuration Summary ===============")
+	fmt.Fprintln(w, "-----------------------------------------------------")
+
+	// Print the number of CPU cores used by this program.
+	fmt.Fprintf(w, "+ Number of CPU cores: \t%d\n", c.NumCPU)
 	fmt.Fprintln(w, "-----------------------------------------------------")
 
 	// Print the output file name.
@@ -111,6 +121,10 @@ func (c *Config) Summary() {
 	// Print the sample size.
 	fmt.Fprintf(w, "+ Pixel sample size: \t%d\n", c.PixelSampleSize)
 	fmt.Fprintf(w, "+ Intersection sample size: \t%d\n", c.IntersectSampleSize)
+	fmt.Fprintln(w, "-----------------------------------------------------")
+
+	// Print the tracing recursion depth.
+	fmt.Fprintf(w, "+ Recursion depth: \t%d\n", c.TraceDepth)
 	fmt.Fprintln(w, "-----------------------------------------------------")
 
 	fmt.Fprintln(w, "=====================================================")
